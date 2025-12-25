@@ -10,6 +10,7 @@ class Task:
     priority: Literal["low", "normal", "high"] = "normal"
     status: Literal["open", "done"] = "open"
     created_at: str | None = None
+    completed_at: str | None = None
 
     def __post_init__(self):
         self.title = self.title.strip()
@@ -24,6 +25,14 @@ class Task:
         if self.status not in {"open", "done"}:
             raise ValueError("Invalid task status: status has to be 'open' or 'done'")
         
+        timestamp = datetime.now()
+
         if self.created_at is None:
-            timestamp = datetime.now()
             self.created_at = timestamp.isoformat()
+
+        if self.status == "done":
+            if self.completed_at is None:
+                self.completed_at = timestamp.isoformat()
+                
+        if self.status == "open":
+            self.completed_at = None
