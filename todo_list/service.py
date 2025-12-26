@@ -3,12 +3,12 @@ from models import Task
 from dataclasses import asdict
 
 def get_all_tasks():
-    tasks_list = []
+    task_list = []
     task_dicts = storage.load_all_tasks()  
     for task_dict in task_dicts:
         task = Task(**task_dict)
-        tasks_list.append(task)
-    return tasks_list
+        task_list.append(task)
+    return task_list
     
 def add_task(title, notes="", priority="normal"):
     tasks = get_all_tasks()
@@ -24,10 +24,39 @@ def add_task(title, notes="", priority="normal"):
 
     new_task = Task(next_id, title, notes, priority)
     tasks.append(new_task)
-    tasks_list = []
+    task_list = []
     for task in tasks:
         task_dicts = asdict(task)
-        tasks_list.append(task_dicts)
+        task_list.append(task_dicts)
     
-    storage.save_all_tasks(tasks_list)
+    storage.save_all_tasks(task_list)
     
+
+def get_exact_task(taskid):
+    task_list = get_all_tasks()
+    for task in task_list:
+        if task.id == taskid:
+            return task
+    raise ValueError("ValueError: id inputted is not found!")
+
+def mark_task_done(taskid):
+    task_list = get_all_tasks()
+    task_found = False
+    for task in task_list:
+        if task.id == taskid:
+            task.status = "done"
+            task_found = True
+            break
+    if not task_found:
+        raise ValueError("ValueError: id inputted is not found!")
+    
+    list_of_dicts = []
+    for task in task_list:
+        task_dicts = asdict(task)
+        list_of_dicts.append(task_dicts)
+
+    storage.save_all_tasks(list_of_dicts)
+
+
+def edit_task(taskid, title=None, notes=None, priority=None):
+    print("Hello, World!")
