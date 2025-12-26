@@ -15,4 +15,4 @@ def load_all_tasks():
 
 def save_all_tasks(tasks):
     with open(path_location, "w") as f:
-        json.dump(tasks, f)
+        json.dump(tasks, f, indent=4)
