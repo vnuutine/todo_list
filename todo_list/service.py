@@ -1,5 +1,6 @@
 import storage
 from models import Task
+from dataclasses import asdict
 
 def get_all_tasks():
     tasks_list = []
@@ -10,10 +11,23 @@ def get_all_tasks():
     return tasks_list
     
 def add_task(title, notes="", priority="normal"):
-    # TODO: get_all_tasks() (Get a list of tasks)
-    #       Find next available id from tasks and assign it to new task being created
-    #       Create a new Task with fields user has given + id
-    #       Add it to the list of tasks loaded previously
-    #       Send to storage with storage.save_all_tasks(tasks)
-    print("Hello, World!")
+    tasks = get_all_tasks()
+    
+    if tasks == []:
+        next_id = 1
+    else:
+        max_id = 0
+        for task in tasks:
+            if task.id > max_id:
+                max_id = task.id
+        next_id = max_id + 1
+
+    new_task = Task(next_id, title, notes, priority)
+    tasks.append(new_task)
+    tasks_list = []
+    for task in tasks:
+        task_dicts = asdict(task)
+        tasks_list.append(task_dicts)
+    
+    storage.save_all_tasks(tasks_list)
     
