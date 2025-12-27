@@ -14,21 +14,27 @@ def main_menu():
         if choice == "1":
             title, notes, priority = handle_add_task()
             service.add_task(title, notes, priority)
+            print(f"New task: {title} added")
         
         if choice == "2":
             pass
 
         if choice == "3":
             taskid = input("Input task id-number of the task to edit: ")
-            title, notes, priority = edit_menu()
-            service.edit_task(int(taskid), title, notes, priority)
-            print(f"Task {taskid} edited")
+            try:
+                service.get_exact_task(taskid)
+                title, notes, priority = edit_menu()
+                service.edit_task(int(taskid), title, notes, priority)
+                print(f"Task {taskid} edited")
+            except ValueError: 
+                print("ValueError: id inputted is not valid, try again")
+              # TODO : Fix logic, now user sent back to main menu after error (build a loop)  
             
-
         if choice == "4":
             taskid = input("Input task id-number which to delete: ")
             service.delete_task(int(taskid))
             print(f"Task {taskid} deleted")
+            # TODO : Add same kind of logic like in 3, handle errors and loop till correct id or quit
 
         if choice == "5":
             print("Program will quit")
