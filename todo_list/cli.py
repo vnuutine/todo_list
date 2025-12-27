@@ -3,7 +3,39 @@ import service
 
 def main_menu():
     while True:
-        pass
+        print("Choose action")
+        print("1. Add new task")
+        print("2. View your tasks")
+        print("3. Edit task")
+        print("4. Delete task")
+        print("5. Quit")
+        choice = input("What would you like to do: ").strip().lower()
+
+        if choice == "1":
+            title, notes, priority = handle_add_task()
+            service.add_task(title, notes, priority)
+        
+        if choice == "2":
+            pass
+
+        if choice == "3":
+            taskid = input("Input task id-number of the task to edit: ")
+            title, notes, priority = edit_menu()
+            service.edit_task(int(taskid), title, notes, priority)
+            print(f"Task {taskid} edited")
+            
+
+        if choice == "4":
+            taskid = input("Input task id-number which to delete: ")
+            service.delete_task(int(taskid))
+            print(f"Task {taskid} deleted")
+
+        if choice == "5":
+            print("Program will quit")
+            break
+
+        else:
+            continue
 
 
 def handle_add_task():
@@ -33,4 +65,37 @@ def handle_add_task():
             print("ValueError: Incorrect choice, choose for Y or N")
             continue
 
-handle_add_task()
+
+def edit_menu():
+    title = None
+    notes = None
+    priority = None
+
+    while True:
+        what_to_edit = input("Input what to edit: 1. Title - 2. Notes - 3. Priority - 4. Save edits: ")
+
+        if what_to_edit == "1":
+            title = input("Input new title: ")
+            continue
+        
+        if what_to_edit == "2":
+            notes = input("Input new notes: ")
+            continue
+        
+        if what_to_edit == "3":
+            priority = input("Input new priority (low, normal or high): ")
+            if priority not in {"low", "normal", "high"}:
+                print("ValueError: Priority has to be from 'low', 'normal' or 'high'")
+                print("Priority value not changed, try again!")
+                priority = None
+                continue
+            continue
+        
+        if what_to_edit == "4":
+            return title, notes, priority
+        
+        else:
+            print("ValueError: Input a valid choice from the options")
+            continue
+
+main_menu()

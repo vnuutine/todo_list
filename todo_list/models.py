@@ -17,9 +17,12 @@ class Task:
         if self.title == "":
             raise ValueError("Invalid task title: title cannot be empty")
         
-        self.priority = self.priority.strip().lower()
-        if self.priority not in {"low", "normal", "high"}:
-            raise ValueError("Invalid task priority: priority has to be 'low', 'normal' or 'high'")
+        if self.priority is None:
+            self.priority = "normal"
+        else:
+            self.priority = self.priority.strip().lower()
+            if self.priority not in {"low", "normal", "high"}:
+                raise ValueError("Invalid task priority: priority has to be 'low', 'normal' or 'high'")
         
         self.status = self.status.strip().lower()
         if self.status not in {"open", "done"}:
