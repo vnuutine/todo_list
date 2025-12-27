@@ -59,4 +59,46 @@ def mark_task_done(taskid):
 
 
 def edit_task(taskid, title=None, notes=None, priority=None):
-    print("Hello, World!")
+    task_list = get_all_tasks()
+    task_found = False
+    for task in task_list: 
+        if task.id == taskid:
+            task_found = True
+            break
+    if not task_found:
+        raise ValueError("ValueError: id inputted is not found!")
+    
+    if title is not None:
+        task.title = title
+    if notes is not None:
+        task.notes = notes
+    if priority:
+        if priority not in ["low", "medium", "high"]:
+            raise ValueError(f"Priority must be 'low', 'medium', or 'high', got '{priority}'")
+        task.priority = priority
+
+    list_of_dicts = []
+    for task in task_list:
+        task_dicts = asdict(task)
+        list_of_dicts.append(task_dicts)
+
+    storage.save_all_tasks(list_of_dicts)
+
+def delete_task(taskid):
+    task_list = get_all_tasks()
+    task_found = False
+    for task in task_list:
+        if task.id == taskid:
+            task_found = True
+            break
+    if not task_found:
+        raise ValueError("ValueError: id inputted is not found!")
+    
+    task_list.remove(task)
+
+    list_of_dicts = []
+    for task in task_list:
+        task_dicts = asdict(task)
+        list_of_dicts.append(task_dicts)
+
+    storage.save_all_tasks(list_of_dicts)
