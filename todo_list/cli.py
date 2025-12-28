@@ -36,18 +36,28 @@ def main_menu():
                     break
                 
                 if user_choice == "1":
+                    open_found = False
                     for task in task_list:
                         if task.status == "open":
+                            open_found = True
                             print("TaskID", task.id, "Title:", task.title, "Notes:", task.notes, "Priority:", task.priority, "Status:", task.status, "Created at:", task.created_at)
                             print("----------")
-                    input("Press enter to continue")
+                    if not open_found:
+                        print("No tasks currently open")
+                        print("----------")
+                    input("Press enter to continue ")
                 
                 if user_choice == "2":
+                    done_found = False
                     for task in task_list:
                         if task.status == "done":
+                            done_found = True
                             print("TaskID", task.id, "Title:", task.title, "Notes:", task.notes, "Priority:", task.priority, "Status:", task.status, "Created at:", task.created_at, "Completed at:", task.completed_at)
                             print("----------")
-                    input("Press enter to continue")
+                    if not done_found:
+                        print("No tasks done yet")
+                        print("----------")
+                    input("Press enter to continue ")
 
                 if user_choice == "3":
                     while True:
@@ -62,6 +72,7 @@ def main_menu():
                             print("ValueError: id inputted is not valid, try again")
 
                 if user_choice == "4":
+                    priority_found = False
                     while True:
                         print("Choose priority to filter with ('low', 'normal' or 'high')")
                         chosen_priority = input("Input (Press 'Q' to exit): ").strip().lower()
@@ -71,8 +82,13 @@ def main_menu():
                         if chosen_priority in {'low' ,'normal', 'high'}:
                             for task in task_list:
                                 if task.priority == chosen_priority:
+                                    priority_found = True
                                     print("TaskID", task.id, "Title:", task.title, "Notes:", task.notes, "Priority:", task.priority, "Status:", task.status, "Created at:", task.created_at, "Completed at:", task.completed_at)
                                     print("----------")
+                        
+                        if not priority_found:
+                            print("No tasks with selected priority found")
+                            print("----------")
                         
                         else:
                             print("ValueError: Priority must be 'low', 'normal' or 'high'")
