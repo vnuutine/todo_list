@@ -1,5 +1,5 @@
 import service
-
+from models import Task
 
 def main_menu():
     while True:
@@ -8,8 +8,8 @@ def main_menu():
         print("2. View your tasks")
         print("3. Edit task")
         print("4. Delete task")
-        print("5. Quit")
-        choice = input("What would you like to do: ").strip().lower()
+        print("Press 'Q' to quit")
+        choice = input("Input: ").strip().lower()
 
         if choice == "1":
             title, notes, priority = handle_add_task()
@@ -17,26 +17,94 @@ def main_menu():
             print(f"New task: {title} added")
         
         if choice == "2":
-            pass
+            task_list = service.get_all_tasks()
+            while True:
+                print("Select the tasks you want to see:")
+                print("1. All open tasks")
+                print("2. All done tasks")
+                print("3. Exact task by id")
+                print("4. Filtered by priority")
+                print("Press 'Q' to return to main menu")
+                user_choice = input("Input: ").strip().lower()
+                
+                if user_choice == "q":
+                    break
+                
+                if user_choice == "1":
+                    for task in task_list:
+                        if task.status == "open":
+                            print(f"TaskId:", task.id, "Title:", task.title)
+                    input("Press enter to continue")
+                
+                if user_choice == "2":
+                    for task in task_list:
+                        if task.status == "done":
+                            print(f"TaskId:", task.id, "Title:", task.title)
+                    input("Press enter to continue")
+
+                if user_choice == "3":
+                    while True:
+                        exact_id = input("Input the task id (Press 'Q' to exit): ").strip().lower()
+                        if exact_id == "q":
+                            break
+                        try:
+                            task = service.get_exact_task(int(exact_id))
+                            print("TaskID", task.id, "Title:", task.title, "Notes:", task.notes, "Priority:", task.priority, "Status:", task.status, "Created at:", task.created_at, "Completed at:", task.completed_at)
+                        except ValueError:
+                            print("ValueError: id inputted is not valid, try again")
+
+                if user_choice == "4":
+                    while True:
+                        print("Choose priority to filter with ('low', 'normal' or 'high')")
+                        chosen_priority = input("Input (Press 'Q' to exit): ").strip().lower()
+                        if chosen_priority == "q":
+                            break
+
+                        if chosen_priority == "low":
+                            for task in task_list:
+                                if task.priority == "low":
+                                    print("TaskId:", task.id, "Title:", task.title, "Notes:", task.notes, "Status:", task.status)
+
+                        if chosen_priority == "normal":
+                            for task in task_list:
+                                if task.priority == "normal":
+                                    print("TaskId:", task.id, "Title:", task.title, "Notes:", task.notes, "Status:", task.status)
+
+                        if chosen_priority == "high":
+                            for task in task_list:
+                                if task.priority == "high":
+                                    print("TaskId:", task.id, "Title:", task.title, "Notes:", task.notes, "Status:", task.status)
+
 
         if choice == "3":
-            taskid = input("Input task id-number of the task to edit: ")
-            try:
-                service.get_exact_task(taskid)
-                title, notes, priority = edit_menu()
-                service.edit_task(int(taskid), title, notes, priority)
-                print(f"Task {taskid} edited")
-            except ValueError: 
-                print("ValueError: id inputted is not valid, try again")
-              # TODO : Fix logic, now user sent back to main menu after error (build a loop)  
+            while True:
+                taskid = input("Input task id-number of the task to edit (Press 'Q' to exit): ").strip().lower()
+                if taskid == "q":
+                    break
+                else:
+                    try:
+                        service.get_exact_task(int(taskid))
+                        title, notes, priority = edit_menu()
+                        service.edit_task(int(taskid), title, notes, priority)
+                        print(f"Task {taskid} edited")
+                        break
+                    except ValueError: 
+                        print("ValueError: id inputted is not valid, try again") 
             
         if choice == "4":
-            taskid = input("Input task id-number which to delete: ")
-            service.delete_task(int(taskid))
-            print(f"Task {taskid} deleted")
-            # TODO : Add same kind of logic like in 3, handle errors and loop till correct id or quit
+            while True:
+                taskid = input("Input task id-number which to delete (Press 'Q' to exit): ").strip().lower()
+                if taskid == "q":
+                    break
+                else:
+                    try:
+                        service.delete_task(int(taskid))
+                        print(f"Task {taskid} deleted")
+                        break
+                    except ValueError:
+                        print("ValueError: id inputted is not valid, try again")
 
-        if choice == "5":
+        if choice == "q":
             print("Program will quit")
             break
 
@@ -104,4 +172,5 @@ def edit_menu():
             print("ValueError: Input a valid choice from the options")
             continue
 
-main_menu()
+if __name__ == "__main__":
+    main_menu()
