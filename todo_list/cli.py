@@ -3,28 +3,33 @@ from models import Task
 
 def main_menu():
     while True:
+        print("----------")
         print("Choose action")
         print("1. Add new task")
         print("2. View your tasks")
         print("3. Edit task")
         print("4. Delete task")
         print("Press 'Q' to quit")
+        print("----------")
         choice = input("Input: ").strip().lower()
 
         if choice == "1":
             title, notes, priority = handle_add_task()
             service.add_task(title, notes, priority)
             print(f"New task: {title} added")
+            print("----------")
         
         if choice == "2":
             task_list = service.get_all_tasks()
             while True:
+                print("----------")
                 print("Select the tasks you want to see:")
                 print("1. All open tasks")
                 print("2. All done tasks")
                 print("3. Exact task by id")
                 print("4. Filtered by priority")
                 print("Press 'Q' to return to main menu")
+                print("----------")
                 user_choice = input("Input: ").strip().lower()
                 
                 if user_choice == "q":
@@ -33,13 +38,15 @@ def main_menu():
                 if user_choice == "1":
                     for task in task_list:
                         if task.status == "open":
-                            print(f"TaskId:", task.id, "Title:", task.title)
+                            print("TaskID", task.id, "Title:", task.title, "Notes:", task.notes, "Priority:", task.priority, "Status:", task.status, "Created at:", task.created_at)
+                            print("----------")
                     input("Press enter to continue")
                 
                 if user_choice == "2":
                     for task in task_list:
                         if task.status == "done":
-                            print(f"TaskId:", task.id, "Title:", task.title)
+                            print("TaskID", task.id, "Title:", task.title, "Notes:", task.notes, "Priority:", task.priority, "Status:", task.status, "Created at:", task.created_at, "Completed at:", task.completed_at)
+                            print("----------")
                     input("Press enter to continue")
 
                 if user_choice == "3":
@@ -50,6 +57,7 @@ def main_menu():
                         try:
                             task = service.get_exact_task(int(exact_id))
                             print("TaskID", task.id, "Title:", task.title, "Notes:", task.notes, "Priority:", task.priority, "Status:", task.status, "Created at:", task.created_at, "Completed at:", task.completed_at)
+                            print("----------")
                         except ValueError:
                             print("ValueError: id inputted is not valid, try again")
 
@@ -59,22 +67,16 @@ def main_menu():
                         chosen_priority = input("Input (Press 'Q' to exit): ").strip().lower()
                         if chosen_priority == "q":
                             break
-
-                        if chosen_priority == "low":
+                        
+                        if chosen_priority in {'low' ,'normal', 'high'}:
                             for task in task_list:
-                                if task.priority == "low":
-                                    print("TaskId:", task.id, "Title:", task.title, "Notes:", task.notes, "Status:", task.status)
-
-                        if chosen_priority == "normal":
-                            for task in task_list:
-                                if task.priority == "normal":
-                                    print("TaskId:", task.id, "Title:", task.title, "Notes:", task.notes, "Status:", task.status)
-
-                        if chosen_priority == "high":
-                            for task in task_list:
-                                if task.priority == "high":
-                                    print("TaskId:", task.id, "Title:", task.title, "Notes:", task.notes, "Status:", task.status)
-
+                                if task.priority == chosen_priority:
+                                    print("TaskID", task.id, "Title:", task.title, "Notes:", task.notes, "Priority:", task.priority, "Status:", task.status, "Created at:", task.created_at, "Completed at:", task.completed_at)
+                                    print("----------")
+                        
+                        else:
+                            print("ValueError: Priority must be 'low', 'normal' or 'high'")
+                            print("----------")
 
         if choice == "3":
             while True:
@@ -87,9 +89,11 @@ def main_menu():
                         title, notes, priority = edit_menu()
                         service.edit_task(int(taskid), title, notes, priority)
                         print(f"Task {taskid} edited")
+                        print("----------")
                         break
                     except ValueError: 
-                        print("ValueError: id inputted is not valid, try again") 
+                        print("ValueError: id inputted is not valid, try again")
+                        print("----------")
             
         if choice == "4":
             while True:
@@ -100,12 +104,15 @@ def main_menu():
                     try:
                         service.delete_task(int(taskid))
                         print(f"Task {taskid} deleted")
+                        print("----------")
                         break
                     except ValueError:
                         print("ValueError: id inputted is not valid, try again")
+                        print("----------")
 
         if choice == "q":
             print("Program will quit")
+            print("----------")
             break
 
         else:
@@ -123,6 +130,7 @@ def handle_add_task():
             return title, None, None
         else:
             print("ValueError: Incorrect choice, choose for Y or N")
+            print("----------")
             continue
     while True:
         choice_two = input("Change priority? Y/N: ").strip().lower()
@@ -132,11 +140,13 @@ def handle_add_task():
                 return title, notes, priority
             else:
                 print("ValueError: Priority must be 'low', 'normal' or 'high'")
+                print("----------")
                 continue
         if choice_two == "n":
             return title, notes, None
         else:
             print("ValueError: Incorrect choice, choose for Y or N")
+            print("----------")
             continue
 
 
@@ -158,9 +168,11 @@ def edit_menu():
         
         if what_to_edit == "3":
             priority = input("Input new priority (low, normal or high): ")
+            print("----------")
             if priority not in {"low", "normal", "high"}:
                 print("ValueError: Priority has to be from 'low', 'normal' or 'high'")
                 print("Priority value not changed, try again!")
+                print("----------")
                 priority = None
                 continue
             continue
@@ -170,6 +182,7 @@ def edit_menu():
         
         else:
             print("ValueError: Input a valid choice from the options")
+            print("----------")
             continue
 
 if __name__ == "__main__":
