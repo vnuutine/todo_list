@@ -1,7 +1,8 @@
 from pathlib import Path
 import json
 
-path_location = Path(r"/Users/ville/Documents/Projects/Python/todo_list/data/storage.json")
+root_dir = Path(__file__).resolve().parent.parent
+path_location = root_dir / "data" / "storage.json"
 
 def load_all_tasks():
     if not path_location.exists():
