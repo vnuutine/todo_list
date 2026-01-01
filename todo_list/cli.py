@@ -90,7 +90,7 @@ def main_menu():
                             print("No tasks with selected priority found")
                             print("----------")
                         
-                        else:
+                        if chosen_priority not in {'low', 'normal', 'high'}:
                             print("ValueError: Priority must be 'low', 'normal' or 'high'")
                             print("----------")
 
