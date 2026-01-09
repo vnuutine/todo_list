@@ -13,6 +13,8 @@ class Task:
     completed_at: str | None = None
 
     def __post_init__(self):
+        if self.title is None:
+            raise ValueError("Title cannot be None")
         self.title = self.title.strip()
         if self.title == "":
             raise ValueError("Invalid task title: title cannot be empty")
