@@ -1,4 +1,4 @@
-import service
+from todo_list import service
 from models import Task
 
 def main_menu():
@@ -104,6 +104,7 @@ def main_menu():
                     try:
                         service.mark_task_done(int(taskid))
                         print(f"Task {taskid} marked as done")
+                        print("----------")
                         break
                     except ValueError:
                         print("ValueError: id inputted is not valid, try again")

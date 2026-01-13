@@ -1,5 +1,5 @@
-import storage
-from models import Task
+from todo_list import storage
+from todo_list.models import Task
 from dataclasses import asdict
 
 def get_all_tasks():
