@@ -7,8 +7,9 @@ def main_menu():
         print("Choose action")
         print("1. Add new task")
         print("2. View your tasks")
-        print("3. Edit task")
-        print("4. Delete task")
+        print("3. Mark task done")
+        print("4. Edit task")
+        print("5. Delete task")
         print("Press 'Q' to quit")
         print("----------")
         choice = input("Input: ").strip().lower()
@@ -93,8 +94,22 @@ def main_menu():
                         if chosen_priority not in {'low', 'normal', 'high'}:
                             print("ValueError: Priority must be 'low', 'normal' or 'high'")
                             print("----------")
-
+        
         if choice == "3":
+            while True:
+                taskid = input("Input task id-number of the task to mark done (Press 'Q' to exit): ").strip().lower()
+                if taskid == "q":
+                    break
+                else:
+                    try:
+                        service.mark_task_done(int(taskid))
+                        print(f"Task {taskid} marked as done")
+                        break
+                    except ValueError:
+                        print("ValueError: id inputted is not valid, try again")
+                        print("----------")
+
+        if choice == "4":
             while True:
                 taskid = input("Input task id-number of the task to edit (Press 'Q' to exit): ").strip().lower()
                 if taskid == "q":
@@ -111,7 +126,7 @@ def main_menu():
                         print("ValueError: id inputted is not valid, try again")
                         print("----------")
             
-        if choice == "4":
+        if choice == "5":
             while True:
                 taskid = input("Input task id-number which to delete (Press 'Q' to exit): ").strip().lower()
                 if taskid == "q":
