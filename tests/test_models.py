@@ -1,10 +1,5 @@
-import sys
 import pytest
-
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'todo_list'))
-
-from models import Task
+from todo_list.models import Task
 from datetime import datetime
 
 
