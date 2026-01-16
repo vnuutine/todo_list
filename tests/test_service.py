@@ -47,3 +47,27 @@ def test_get_exact_task(sample_tasks):
         assert exact_task.title == "Test task 2"
         assert exact_task.priority == "low"
         assert exact_task.id == 2
+
+
+def test_get_exact_task_not_found(sample_tasks):
+    with patch("todo_list.storage.load_all_tasks") as mock_load:
+
+        mock_load.return_value = [
+            {"id": 1, "title": "Test task 1", "notes": "", "priority": "normal", "status": "open"},
+            {"id": 2, "title": "Test task 2", "notes": "", "priority": "low", "status": "done"}
+        ]
+
+        with pytest.raises(ValueError):
+            exact_task = service.get_exact_task(999)
+
+
+def test_get_exact_task_is_none(sample_tasks):
+    with patch("todo_list.storage.load_all_tasks") as mock_load:
+
+        mock_load.return_value = [
+            {"id": 1, "title": "Test task 1", "notes": "", "priority": "normal", "status": "open"},
+            {"id": 2, "title": "Test task 2", "notes": "", "priority": "low", "status": "done"}
+        ]
+
+        with pytest.raises(ValueError):
+            exact_task = service.get_exact_task(None)
