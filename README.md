@@ -43,9 +43,10 @@ When you start the app, you'll see these options:
 
 1. **Add new task** - Create a new todo item
 2. **View your tasks** - Browse and filter your tasks
-3. **Edit task** - Modify an existing task
-4. **Delete task** - Remove a task permanently
-5. **Press 'Q' to quit** - Exit the application
+3. **Mark task done** - Mark an open task to done
+4. **Edit task** - Modify an existing task
+5. **Delete task** - Remove a task permanently
+Q. **Press 'Q' to quit** - Exit the application
 
 ### Task Properties
 
