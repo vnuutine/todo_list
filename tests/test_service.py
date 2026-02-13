@@ -3,14 +3,6 @@ from unittest.mock import patch
 from todo_list.models import Task
 from todo_list import service
 
-@pytest.fixture
-def sample_tasks():
-    return [
-        Task(id=1, title="Test task 1", priority="normal", status="open"),
-        Task(id=2, title="Test task 2", priority="low", status="done"),
-        Task(id=3, title="Test task 3", priority="high", status="open")
-    ]
-
 
 def test_add_task(sample_tasks):
     with patch("todo_list.storage.load_all_tasks") as mock_load, \
