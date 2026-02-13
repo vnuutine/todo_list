@@ -17,7 +17,7 @@ dev = [
 ]
 
 [project.scripts]
-todo = "todo_list.cli:main"
+todo = "todo_list.cli:main_menu"
 
 [build-system]
 requires = ["setuptools>=68"]

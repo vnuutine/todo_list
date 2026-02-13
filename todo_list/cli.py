@@ -1,5 +1,5 @@
 from todo_list import service
-from models import Task
+from todo_list.models import Task
 
 def main_menu():
     while True:
