@@ -4,7 +4,7 @@ from todo_list.models import Task
 from todo_list import service
 
 
-def test_add_task(sample_tasks):
+def test_add_task():
     with patch("todo_list.storage.load_all_tasks") as mock_load, \
          patch("todo_list.storage.save_all_tasks") as mock_save:
         
@@ -25,7 +25,7 @@ def test_add_task(sample_tasks):
         assert saved_tasks[2]["id"] == 3
 
 
-def test_get_exact_task(sample_tasks):
+def test_get_exact_task():
     with patch("todo_list.storage.load_all_tasks") as mock_load:
         
         mock_load.return_value = [
@@ -41,7 +41,7 @@ def test_get_exact_task(sample_tasks):
         assert exact_task.id == 2
 
 
-def test_get_exact_task_not_found(sample_tasks):
+def test_get_exact_task_not_found():
     with patch("todo_list.storage.load_all_tasks") as mock_load:
 
         mock_load.return_value = [
@@ -53,7 +53,7 @@ def test_get_exact_task_not_found(sample_tasks):
             exact_task = service.get_exact_task(999)
 
 
-def test_get_exact_task_is_none(sample_tasks):
+def test_get_exact_task_is_none():
     with patch("todo_list.storage.load_all_tasks") as mock_load:
 
         mock_load.return_value = [
